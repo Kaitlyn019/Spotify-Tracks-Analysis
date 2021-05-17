@@ -14598,9 +14598,7 @@ a.anchor-link {
 </tr>
 <tr>
 <td><strong>speechiness</strong></td>
-<td>Ranges 0 (non-speech tracks) to 1 (entirely spoken). Above 0.66 indicates almost entirely spoken, below 0.33 indicates non</td>
-<td>speech</td>
-<td>like tracks. 0.33 to 0.66 is where most songs sit.</td>
+<td>Ranges 0 (non-speech tracks) to 1 (entirely spoken). Above 0.66 indicates almost entirely spoken, below 0.33 indicates non-speech-like tracks. 0.33 to 0.66 is where most songs sit.</td>
 </tr>
 <tr>
 <td><strong>acousticness</strong></td>
@@ -15696,8 +15694,8 @@ strong multicollinearity or other numerical problems.
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>So we ran statsmodelsapi to figure out the coefficients of each variable. If we look at the P values for each variable, all of them are below our signficance level which shows that there does exist a relationship between the variables and the popularity of the song. However, the $R^2$ value at the top - which measures the proportion of variance explained by the independent variables - is not the strongest. The model predicts the popularity of a song with about 41% accuracy.</p>
-<p>We can also use sklearn's linear regression method with k-Fold cross validation to find the average accuracy across multiple training data sets. Cross validation is particularly helpful with limited data samples. Even though we are definitely not limited with 600k songs, we can use this to quickly see how our model does across multiple sets of training and testing data. The number of folds is the number of groups that will be studied. k=10 is the default for models if you are finding difficulty determining an optimal k value.</p>
+<p>So we ran statsmodelsapi to figure out the coefficients of each variable. If we look at the P values for each variable, all of them are below our signficance level which shows that there does exist a relationship between the variables and the popularity of the song. However, the $R^2$ of 42% value at the top - which measures the proportion of variance explained by the independent variables - is not the strongest.</p>
+<p>We can also use sklearn's linear regression method with k-Fold cross validation to find the average score across multiple training data sets. Cross validation is particularly helpful with limited data samples. Even though we are definitely not limited with 600k songs, we can use this to quickly see how our model does across multiple sets of training and testing data. The number of folds is the number of groups that will be studied. k=10 is the default for models if you are finding difficulty determining an optimal k value.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -15712,7 +15710,7 @@ strong multicollinearity or other numerical problems.
 <span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">regr</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">dep</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">k_fold</span><span class="p">)</span>            <span class="c1"># fold ten times</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Folding 10 times...&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Average Accuracy: </span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>          <span class="c1"># average accuracy over ten folds</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Average Accuracy: </span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>          <span class="c1"># average R^2 over ten folds</span>
 </pre></div>
 
      </div>
@@ -15745,7 +15743,7 @@ Average Accuracy: 0.3743075876760976
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Bad news, our accuracy is quite low with linear regression. We can look at the average residuals to see how we are doing.</p>
+<p>Bad news, our $R^2$ is quite low with linear regression. We can look at the average residuals to see how we are doing.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -15955,7 +15953,7 @@ Average Accuracy: 0.3743075876760976
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Our next step is actually doing linear regression on this newly transformed data. The method of doing so is very similar to earlier, except we are not using k-Folds (hissing laptop), but instead we can split the data using sklearn's train_test_split. It splits the data into a training set and a testing set. Here I want my training set to be 77% of my data and testing set to be 33%, which felt like an even split. The training set should generally be larger than the testing set. We can measure the R^2 of our new model and average absolute error.</p>
+<p>Our next step is actually doing linear regression on this newly transformed data. The method of doing so is very similar to earlier, except we are not using k-Folds (hissing laptop), but instead we can split the data using sklearn's train_test_split. It splits the data into a training set and a testing set. Here I want my training set to be 77% of my data and testing set to be 33%, which felt like an even split. The training set should generally be larger than the testing set. We can measure the $R^2$ of our new model and average absolute error.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -16003,7 +16001,7 @@ Average Accuracy: 0.3743075876760976
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The accuracy is already better (the previous was 0.3743)! Of course, this one wasn't averaged over multiple tests but transforming our data has helped the accuracy in general. Our mean absolute error - the average distance off our predicted value is from the actual value - is still relatively high at 10.5. This is still not the best model, but we will look at 2 more options that are not linear regression.</p>
+<p>Our calculated R^2 is already better (the previous was 0.3743)! Of course, this one wasn't averaged over multiple tests but transforming our data has helped in general. Our mean absolute error - the average distance off our predicted value is from the actual value - is still relatively high at 10.5. This is still not the best model, but we will look at 2 more options that are not linear regression.</p>
 <p>But first, we can look at the coefficient importance for the new model:</p>
 
 </div>
@@ -16182,7 +16180,7 @@ Average Accuracy: 0.3743075876760976
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="4.3-Decision-Tree">4.3 Decision Tree<a class="anchor-link" href="#4.3-Decision-Tree">&#182;</a></h3><p>Okay, so transforming the data still got us below a 50% accuracy rate. What other models can we try? Decision trees basically ask a series of yes/no - true/false - if/else questions to reach a classification as quickly as possible. At each point in the tree, the question narrows the possible values until we are fairly confident in our answer. When we test against the decision tree, it estimates based on the data used for training. For this part, we will be implementing decision trees with sklearn. Because we are trying to estimate a value (popularity) and not classifying it, and we are doing supervised learning, we will be using DecisionTreeRegressor.</p>
+<h3 id="4.3-Decision-Tree">4.3 Decision Tree<a class="anchor-link" href="#4.3-Decision-Tree">&#182;</a></h3><p>Okay, so transforming the data still got us a $R^2$ below 0.5. What other models can we try? Decision trees basically ask a series of yes/no - true/false - if/else questions to reach a classification as quickly as possible. At each point in the tree, the question narrows the possible values until we are fairly confident in our answer. When we test against the decision tree, it estimates based on the data used for training. For this part, we will be implementing decision trees with sklearn. Because we are trying to estimate a value (popularity) and not classifying it, and we are doing supervised learning, we will be using DecisionTreeRegressor.</p>
 <p>One thing decision trees tend to have an issue with is overfitting. You can see it with our initial run of the code:</p>
 
 </div>
@@ -16232,7 +16230,7 @@ Average Accuracy: 0.3743075876760976
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The accuracy on the training set is nearly 99% except the accuracy on the testing set is 35% - lower than our initial linear regression model. We can try to fix this issue by defining hyperparameters on the decision tree. One of these is the maximum leaf nodes which can control overfitting. High maximum values can lead to overfitting, so we want a choose a value carefully. Additionally, at a certain point, increasing the maximum leaf nodes no longer produces higher accuracy. The following code calculates the lowest maximum leaf node that no longer produces a 0.1% increase in accuracy.</p>
+<p>The score on the training set is nearly 1 while the score for the testing set is around 0.35 - lower than our initial linear regression model. We can try to fix this issue by defining hyperparameters on the decision tree. One of these is the maximum leaf nodes which can control overfitting. High maximum values can lead to overfitting, so we want a choose a value carefully. Additionally, at a certain point, increasing the maximum leaf nodes no longer increases our score. The following code calculates the lowest maximum leaf node that no longer produces a 0.001 increase in the score.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -16285,7 +16283,7 @@ Average Accuracy: 0.3743075876760976
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>We can also see how maximum leaf nodes affects the R^2 of the testing set.</p>
+<p>We can also see how maximum leaf nodes affects the $R^2$ of the testing set.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -16398,7 +16396,7 @@ Average Accuracy: 0.3743075876760976
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Our accuracy has improved! By tuning the hyperparameters, we can get a better prediction on the testing set. 60% accuracy is not the best but at this point, it might be the fact that you can not easily predict a song's popularity. Humans don't necessarily follow algorithms well. But we can try one more model.</p>
+<p>Our score has improved! By tuning the hyperparameters, we can get a better prediction on the testing set. 0.61 is not the best but at this point, it might be the fact that you can not easily predict a song's popularity. Humans don't necessarily follow algorithms well. But we can try one more model.</p>
 
 </div>
 </div>
@@ -16464,7 +16462,7 @@ Average Accuracy: 0.3743075876760976
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Ok initial run - not bad. It's worse than our decision tree which may be from the limited sample data. But with only 10,000 songs, it has an accuracy of nearly 60%. Compared to our original 37% from linear regression, we are doing better! But we can do the same thing we did with decision trees here and try to figure out a better set of hyperparameters with the RandomizedSearchCV:</p>
+<p>Ok initial run - not bad. It's worse than our decision tree which may be from the limited sample data. But with only 10,000 songs, it has a score of 0.59. Compared to our original 0.37 from linear regression, we are doing better! But we can do the same thing we did with decision trees here and try to figure out a better set of hyperparameters with the RandomizedSearchCV:</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -16582,7 +16580,7 @@ Average Accuracy: 0.3743075876760976
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Running it again, we have a small improvement of 0.5% accuracy, and about 0.1 decrease in error.</p>
+<p>Running it again, we have a small improvement of a score of 0.005, and about 0.1 decrease in error.</p>
 <h3 id="5.-Conclusion">5. Conclusion<a class="anchor-link" href="#5.-Conclusion">&#182;</a></h3><p>Let's compare the final models and how well we did:</p>
 <table>
 <thead><tr>
@@ -16595,7 +16593,7 @@ Average Accuracy: 0.3743075876760976
 </thead>
 <tbody>
 <tr>
-<td>Accuracy</td>
+<td>Score</td>
 <td>0.37</td>
 <td>0.44</td>
 <td>0.61</td>
@@ -16610,7 +16608,7 @@ Average Accuracy: 0.3743075876760976
 </tr>
 </tbody>
 </table>
-<p>The decision tree did the best here, though our random forest was done with a limited set of data instead. However, even at our best, our model was only able to reach 61% accuracy when figuring out the popularity of a song.</p>
+<p>The decision tree did the best here, though our random forest was done with a limited set of data instead. However, even at our best, the model's score was 0.61 with a mean absolute error of 8.47 when figuring out the popularity of a song.</p>
 
 </div>
 </div>
